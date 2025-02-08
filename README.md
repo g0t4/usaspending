@@ -22,6 +22,15 @@ docker compose up
 
 ```
 
+## Cleanup
+
+```sh
+
+# do not do this until you're ready to lose it all!
+docker compose down --remove-orphans --volumes --rmi all
+
+```
+
 ## The Money Shot
 
 - [Full database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db_20250106.zip)
