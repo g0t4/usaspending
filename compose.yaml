@@ -1,0 +1,24 @@
+services:
+  # postgres database container for reviewing usaspending database (first the subset database)
+  subset:
+    image: postgres:latest
+    ports:
+      - "54321:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=subset
+    volumes:
+      - .:/download
+      - subset:/data
+  adminer:
+    image: adminer
+    depends_on:
+      - subset
+    environment:
+      - ADMINER_DEFAULT_SERVER=subset
+    ports:
+      - "8080:8080"
+
+volumes:
+  subset:
