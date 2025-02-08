@@ -8,7 +8,16 @@ Get your hands on the entire database!
 # You'll need Docker Desktop for Mac/Win/Linux installed... or Docker running somewhere you can access.
 
 # Download the datasets, I'd recommend using a client that can resume on failures... or just wget it:
-wget -O usaspending-db.zip "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip
+wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
+wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
+# Unzip:
+unzip usaspending-db_20250106.zip
+unzip usaspending-db-subset_20250106.zip
+
+# start the database container
+docker compose up
+# use Ctrl+C to stop it
+
 
 
 ```
