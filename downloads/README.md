@@ -1,5 +1,9 @@
 ## metadata schema
 
+Links:
+- [Download](https://files.usaspending.gov/docs/USAspending-data-catalog.json)
+- [Info](https://www.usaspending.gov/download_center/dataset_metadata)
+
 ```sh
 cat USAspending-data-catalog.json | jq "keys"
 
