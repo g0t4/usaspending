@@ -14,7 +14,7 @@ wget "https://files.usaspending.gov/database_download/usaspending-db-subset_2025
 unzip usaspending-db_20250106.zip
 unzip usaspending-db-subset_20250106.zip
 
-# (optional) put any initialization into ./initdb/
+# TODO put any initialization into ./initdb/
 # - runs executable *.sh 
 # - runs *.sql
 # - sources non-exeuctable *.sh
