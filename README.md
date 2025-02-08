@@ -62,8 +62,34 @@ pg_restore --clean --verbose -U postgres --dbname=subset /downloads/pruned_data_
 # TODO address import errors or is that expected w/ subset? 
 pg_restore --list /downloads/full
 createdb full -U postgres
-pg_restore --clean --verbose -U postgres --dbname=full /downloads/full --no-owner -j 8
+psql -U postgres
+```
+```sql
+    ALTER SYSTEM SET maintenance_work_mem = '12GB'; -- 64MB default
+    ALTER SYSTEM SET shared_buffers = '16GB'; -- 128GB default
+    ALTER SYSTEM SET max_parallel_maintenance_workers = 8; -- 2 default
+    ALTER SYSTEM SET synchronous_commit = 'off'; -- on default
+    ALTER SYSTEM SET work_mem = '512MB'; -- 4MB default
+    ALTER SYSTEM SET autovacuum = 'off'; -- on default
+    ALTER SYSTEM SET fsync = 'off'; -- on default
+    ALTER SYSTEM SET full_page_writes = 'off'; -- on default
+    ALTER SYSTEM SET checkpoint_completion_target = 0.9; -- 0.9 default
+    ALTER SYSTEM SET wal_level = minimal; -- replica default
+    ALTER SYSTEM SET max_wal_senders = 0; -- 10 default
+    CHECKPOINT; -- TODO WHEN?
 
+    -- BTW if you bork postgres config, just edit the volume:
+    --    edit this on the container host (esp if settings cause db to fail to start):
+    --    nvim /var/lib/docker/volumes/usaspending_database/_data/postgresql.auto.conf
+    SHOW config_file; -- if needed, to find its path
+    SHOW maintenance_work_mem;
+```
+```sh
+# full restart for wal_level change
+docker compose restart
+psql -U postgres
+
+pg_restore --clean --verbose -U postgres --dbname=full /downloads/full --no-owner -j 8
 
 
 ```
