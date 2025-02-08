@@ -74,6 +74,7 @@ psql -U postgres
     ALTER SYSTEM SET fsync = 'off'; -- on default
     ALTER SYSTEM SET full_page_writes = 'off'; -- on default
     ALTER SYSTEM SET checkpoint_completion_target = 0.9; -- 0.9 default
+    -- I was getting wal warnings w/ -j 4+ so this is definitely useful to look into:
     ALTER SYSTEM SET wal_level = minimal; -- replica default
     ALTER SYSTEM SET max_wal_senders = 0; -- 10 default
     CHECKPOINT; -- TODO WHEN?
