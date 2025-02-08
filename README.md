@@ -26,6 +26,16 @@ unzip usaspending-db-subset_20250106.zip
 docker compose up
 # use Ctrl+C to stop it
 
+# shell access:
+docker compose exec db bash
+# connect to psql:
+psql -U postgres
+\l # list databases
+\? # help
+\d # list tables, views, etc
+\dt # list tables (shorthand)
+
+
 
 
 ```
