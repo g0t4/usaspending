@@ -1,6 +1,9 @@
 services:
   db:
-    image: postgres:latest
+    build:
+      context: .
+      dockerfile: pg.Dockerfile
+    image: custom_postgres
     ports:
       - "54321:5432"
     environment:

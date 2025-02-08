@@ -37,6 +37,21 @@ psql -U postgres
 \d # list tables, views, etc
 \dt # list tables (shorthand)
 
+# TODO postgres-contrib*
+apt update
+apt search postgresql-contrib
+
+# restore
+# /downloads/pruned_data_store_api_dump/toc.dat
+docker compose exec db bash
+pg_restore --list /downloads/pruned_data_store_api_dump
+createdb subset -U postgres
+pg_restore -U postgres --dbname=subset /downloads/pruned_data_store_api_dump
+#   -j 4   # parallel?
+# pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
+
+
+
 
 
 
