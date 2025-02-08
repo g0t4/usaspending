@@ -21,8 +21,9 @@ unzip -j -d subset usaspending-db-subset_20250106.zip
 #   zip archive: 4.6GB zip, 
 #   decompressed zip: 4.7GB (mostly *.dat.gz) 
 #   gunzip'd *.gz: 26GB  
-#       ls *.gz | parallel gunzip # decompress gzip files too... cannot trust gunzip -l b/c of int32 size issue
-#       # FYI this is not the final db restore size (i.e. indexes/etc will take up space)
+#     ls *.gz | parallel gunzip # decompress gzip files too... cannot trust gunzip -l b/c of int32 size issue
+#     # FYI this is not the final db restore size (i.e. indexes/etc will take up space)
+#     ls *.dat | xargs -I_ du -h _ | sort -h > ../subset-file-sizes.txt
 #   pg_restore'd in docker volume: 42GB
 #      42GB docker volume one crestored and IIAC materialized views are rebuilt/ing
 #
@@ -32,7 +33,7 @@ unzip -d full usaspending-db_20250106.zip
 #  decompressed zip: ?
 #  gunzip'd *.gz: 1,228 GB (1.2TB)
 #    FYI I also captured file sizes using:
-#    ls *.dat | xargs -I_ du -h _ > ../full-file-sizes.txt
+#    ls *.dat | xargs -I_ du -h _ | sort -h > ../full-file-sizes.txt
 #  pg_restore'd in docker volume: ___
 #    TODO capture this once I get a successful restore
 
