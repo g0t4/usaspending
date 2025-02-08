@@ -45,7 +45,6 @@ select name, website from toptier_agency
 pg_restore --list /downloads/pruned_data_store_api_dump
 createdb subset -U postgres
 pg_restore --clean --verbose -U postgres --dbname=subset /downloads/pruned_data_store_api_dump --no-owner -j 8
-# TODO -j 4   # parallel, does it matter for subset? probably yes for full
 # --no-owner b/c everything was marked owned by etl_user, else get error:
 #     pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
 # --verbose gives updates => compare to pg_restore --list above to see overall position in restore
@@ -53,7 +52,7 @@ pg_restore --clean --verbose -U postgres --dbname=subset /downloads/pruned_data_
 #     # track bites read:
 #     pv backup.dump | pg_restore -d mydb --verbose
 # ~20 minutes for subset w/o -j 
-# 00:53 => ?    -j 8 (10 cores allocated to my docker VM)
+# 00:53 => 01:09   -j 8 (10 cores allocated to my docker VM) => 16 mins 
 # TODO address import errors or is that expected w/ subset? 
 
 
