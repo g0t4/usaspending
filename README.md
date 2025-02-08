@@ -37,22 +37,26 @@ psql -U postgres
 \d # list tables, views, etc
 \dt # list tables (shorthand)
 
-# TODO postgres-contrib*
+# list extensions needed:
+pg_restore --list /downloads/pruned_data_store_api_dump/ | grep EXTENSION
 apt update
 apt search postgresql-contrib
 
 # restore
 # /downloads/pruned_data_store_api_dump/toc.dat
-docker compose exec db bash
 pg_restore --list /downloads/pruned_data_store_api_dump
 createdb subset -U postgres
-pg_restore -U postgres --dbname=subset /downloads/pruned_data_store_api_dump
-#   -j 4   # parallel?
-# pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
+pg_restore --clean --verbose -U postgres --dbname=subset /downloads/pruned_data_store_api_dump --no-owner
+# TODO -j 4   # parallel, does it matter for subset? probably yes for full
+# --no-owner b/c everything was marked owned by etl_user, else get error:
+#     pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
+# --verbose gives updates => compare to pg_restore --list above to see overall position in restore
+#     SELECT * FROM pg_stat_progress_copy;
+#     # track bites read:
+#     pv backup.dump | pg_restore -d mydb --verbose
 
 
-
-
+# ~20 minutes for subset w/o -j 
 
 
 ```
