@@ -13,22 +13,36 @@ cd downloads
 wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
 wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
 # the zip files exist as a container (the files are gzip compressed inside)
-# Unzip: 
+#
 unzip -j -d subset usaspending-db-subset_20250106.zip
 #   -j means strip all nested paths and put all files in one dir (-d subset)
 #      note this only works if you don't need any nested dir structures
-# 146 GB zip, ___ uncompressed (mostly *.dat.gz)
-#   __ volume once restored (in docker container)
+# sizes:
+#   zip archive: 4.6GB zip, 
+#   decompressed zip: 4.7GB (mostly *.dat.gz) 
+#   gunzip'd *.gz: 26GB  
+#       ls *.gz | parallel gunzip # decompress gzip files too... cannot trust gunzip -l b/c of int32 size issue
+#       # FYI this is not the final db restore size (i.e. indexes/etc will take up space)
+#   pg_restore'd in docker volume: 42GB
+#      42GB docker volume one crestored and IIAC materialized views are rebuilt/ing
+#
 unzip -d full usaspending-db_20250106.zip 
-# 4.6GB zip, 4.7GB uncompressed (mostly *.dat.gz) 
-#   42GB volume one crestored and IIAC materialized views are rebuilt/ing
+# sizes:
+#  zip archive: 146 GB
+#  decompressed zip: ?
+#  gunzip'd *.gz: 696 GB + ___
+#    757G with dat files decompressed (except 5840.dat.gz 5841.dat.gz, these two are 61GB compressed)
+#    696 GB + last two decompressed
+#    TODO find the last two file sizes decompressed
+#  pg_restore'd in docker volume: ___
+#    TODO capture this once I get a successful restore
 
-# TODO put any initialization into ./initdb/
+# FYI put initialization scripts in ./initdb/
 # - runs executable *.sh 
 # - runs *.sql
 # - sources non-exeuctable *.sh
 
-# TODO review database config example:
+# PRN review database config example:
 # /usr/share/postgresql/postgresql.conf.sample
 
 # start the database container
@@ -98,6 +112,27 @@ df -h
 # FYI I started at:
 #     2025-02-08 19:26:22.568 UTC
 #  iotop => writing 600MB/sec+!
+# shared memory corrupted after 610GB... I have enough data to play for now...
+#
+# *** next time:
+# Restore schema only (no indexes, no constraints)
+pg_restore -j 16 --schema-only --no-owner --no-comments -Fd -d your_database /path/to/dump
+# Restore indexes (optional, can defer to later)
+pg_restore -j 16 --index-only -Fd -d your_database /path/to/dump
+# Restore table data (bulk load, no constraints applied yet)
+pg_restore -j 16 --data-only --no-owner --disable-triggers -Fd -d your_database /path/to/dump
+# Apply constraints after data is in (defer validation for speed)
+pg_restore -j 16 --section=post-data -Fd -d your_database /path/to/dump
+# also watch for errors along the way and adjust accordingly... right now I just let errors happen
+# are schemas not in the backup (see logs from full restore)
+SELECT DISTINCT schemaname FROM pg_tables WHERE schemaname NOT IN ('public');
+CREATE SCHEMA rpt;
+CREATE SCHEMA raw;
+CREATE SCHEMA "int";
+
+# extract files inplace first... just to see sizes (in parallel too and by size)
+find *.gz -size -300c | parallel gunzip
+
 
 ```
 
