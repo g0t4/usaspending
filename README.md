@@ -58,6 +58,10 @@ pg_restore --clean --verbose -U postgres --dbname=subset /downloads/pruned_data_
 # ~20 minutes for subset w/o -j 
 # 00:53 => 01:09   -j 8 (10 cores allocated to my docker VM) => 16 mins 
 # TODO address import errors or is that expected w/ subset? 
+pg_restore --list /downloads/full
+createdb full -U postgres
+pg_restore --clean --verbose -U postgres --dbname=full /downloads/full --no-owner -j 8
+
 
 
 ```
