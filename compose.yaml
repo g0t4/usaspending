@@ -9,7 +9,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secrets
-      # - POSTGRES_DB=usaspending
     volumes:
       - ./downloads:/downloads
       - ./initdb:/docker-entrypoint-initdb.d/
