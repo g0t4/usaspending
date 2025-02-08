@@ -29,7 +29,7 @@ docker compose up
 # use Ctrl+C to stop it
 
 # shell access:
-docker compose exec db bash
+docker compose exec db fish
 # connect to psql:
 psql -U postgres
 \l # list databases
