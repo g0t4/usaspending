@@ -2,6 +2,17 @@
 
 Get your hands on the entire database!
 
+## Instructions
+
+```sh
+# You'll need Docker Desktop for Mac/Win/Linux installed... or Docker running somewhere you can access.
+
+# Download the datasets, I'd recommend using a client that can resume on failures... or just wget it:
+wget -O usaspending-db.zip "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip
+
+
+```
+
 ## The Money Shot
 
 - [Full database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db_20250106.zip)
