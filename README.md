@@ -7,12 +7,14 @@ Get your hands on the entire database!
 ```sh
 # You'll need Docker Desktop for Mac/Win/Linux installed... or Docker running somewhere you can access.
 
-# Download the datasets, I'd recommend using a client that can resume on failures... or just wget it:
-wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
+# Download the databases, I'd recommend using a client that can resume on failures... or just wget it:
+# it would be wise to start with the subset only (4.6GB) instead of the full db (146GB)
+cd downloads
 wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
+wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
 # Unzip:
-unzip usaspending-db_20250106.zip
 unzip usaspending-db-subset_20250106.zip
+unzip usaspending-db_20250106.zip
 
 # TODO put any initialization into ./initdb/
 # - runs executable *.sh 
