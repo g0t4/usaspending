@@ -91,7 +91,13 @@ docker compose restart
 psql -U postgres
 
 pg_restore --clean --verbose -U postgres --disable-triggers --dbname=full /downloads/full --no-owner -j 16
-
+# monitor progress:
+du -hd1 /var/lib/postgresql/data/
+# I estimate > 1TB of files once done (pdf suggested 1.5, looking at archives suggests maybe not that much but hard to say... the size of some files overflow signed int32 field use by gzip to store uncompressed size so only way to know is to decompress and find out!
+df -h
+# FYI I started at:
+#     2025-02-08 19:26:22.568 UTC
+#  iotop => writing 600MB/sec+!
 
 ```
 
