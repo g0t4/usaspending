@@ -14,6 +14,14 @@ wget "https://files.usaspending.gov/database_download/usaspending-db-subset_2025
 unzip usaspending-db_20250106.zip
 unzip usaspending-db-subset_20250106.zip
 
+# (optional) put any initialization into ./initdb/
+# - runs executable *.sh 
+# - runs *.sql
+# - sources non-exeuctable *.sh
+
+# TODO review database config example:
+# /usr/share/postgresql/postgresql.conf.sample
+
 # start the database container
 docker compose up
 # use Ctrl+C to stop it
@@ -21,6 +29,8 @@ docker compose up
 
 
 ```
+
+Refer to the docs for the [postgres image on Docker Hub](https://hub.docker.com/_/postgres) 
 
 ## Cleanup
 
