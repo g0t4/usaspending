@@ -1,0 +1,72 @@
+4.0K	5380.dat
+4.0K	5389.dat
+4.0K	5391.dat
+4.0K	5395.dat
+4.0K	5396.dat
+4.0K	5399.dat
+4.0K	5401.dat
+4.0K	5406.dat
+4.0K	5408.dat
+4.0K	5411.dat
+4.0K	5417.dat
+4.0K	5418.dat
+4.0K	5422.dat
+4.0K	5424.dat
+4.0K	5428.dat
+4.0K	5442.dat
+4.0K	5478.dat
+8.0K	5413.dat
+8.0K	5434.dat
+ 12K	5407.dat
+ 12K	5410.dat
+ 12K	5453.dat
+ 16K	5409.dat
+ 16K	5450.dat
+ 16K	5461.dat
+ 20K	5415.dat
+ 32K	5460.dat
+ 36K	5393.dat
+ 56K	5383.dat
+ 68K	5481.dat
+ 80K	5449.dat
+100K	5469.dat
+116K	5381.dat
+136K	5463.dat
+164K	5382.dat
+208K	5403.dat
+336K	5426.dat
+364K	5480.dat
+376K	5405.dat
+516K	toc.dat
+532K	5474.dat
+648K	5455.dat
+732K	5496.dat
+1.6M	5435.dat
+1.9M	5482.dat
+8.6M	5465.dat
+8.8M	5484.dat
+9.8M	5447.dat
+ 14M	5472.dat
+ 24M	5458.dat
+ 31M	5476.dat
+ 33M	5467.dat
+ 63M	5440.dat
+ 81M	5500.dat
+ 87M	5497.dat
+ 91M	5491.dat
+ 93M	5490.dat
+110M	5387.dat
+184M	5437.dat
+187M	5439.dat
+230M	5494.dat
+404M	5495.dat
+453M	5379.dat
+481M	5445.dat
+545M	5503.dat
+570M	5502.dat
+1.4G	5501.dat
+2.1G	5499.dat
+2.6G	5432.dat
+3.1G	5498.dat
+5.7G	5430.dat
+7.6G	5420.dat
