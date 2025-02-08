@@ -90,7 +90,7 @@ psql -U postgres
 docker compose restart
 psql -U postgres
 
-pg_restore --clean --verbose -U postgres --dbname=full /downloads/full --no-owner -j 8
+pg_restore --clean --verbose -U postgres --disable-triggers --dbname=full /downloads/full --no-owner -j 16
 
 
 ```
