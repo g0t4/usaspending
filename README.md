@@ -30,8 +30,9 @@ unzip -d full usaspending-db_20250106.zip
 # sizes:
 #  zip archive: 146 GB
 #  decompressed zip: ?
-#  gunzip'd *.gz: 696 GB + ___
-#    757G with dat files decompressed (except 5840.dat.gz 5841.dat.gz, these two are 61GB compressed)
+#  gunzip'd *.gz: 1,228 GB (1.2TB)
+#    757G with dat files decompressed 
+#    FYI 5840.dat.gz 5841.dat.gz, these two are 61GB compressed)
 #    696 GB + last two decompressed 532G
 #    TODO find the last two file sizes decompressed
 #  pg_restore'd in docker volume: ___
