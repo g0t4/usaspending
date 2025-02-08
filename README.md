@@ -34,8 +34,11 @@ docker compose exec db fish
 psql -U postgres
 \l # list databases
 \? # help
+\c subset # switch dbs
 \d # list tables, views, etc
 \dt # list tables (shorthand)
+select name, website from toptier_agency
+# nvim found the database dump files and is suggesting completions for tables !!! 
 
 # list extensions needed:
 pg_restore --list /downloads/pruned_data_store_api_dump/ | grep EXTENSION

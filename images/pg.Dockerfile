@@ -2,8 +2,7 @@ FROM postgres:latest
 
 # fish shell provides completions!
 RUN apt update \
-    && apt install -y fish unzip file \
-    && apt install -y postgresql-contrib-9.6
+    && apt install -y fish unzip file
 
 
 # https://github.com/postgis/docker-postgis/blob/81a0b55/14-3.2/Dockerfile
