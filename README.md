@@ -13,11 +13,10 @@ cd downloads
 wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
 wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
 # the zip files exist as a container (the files are gzip compressed inside)
-# Unzip:
-unzip -d subset usaspending-db-subset_20250106.zip
-mv subset/pruned_data_store_api_dump/* subset/.
-rmdir subset/pruned_data_store_api_dump/
-# TODO find args to unzip to remove extra dump dir
+# Unzip: 
+unzip -j -d subset usaspending-db-subset_20250106.zip
+#   -j means strip all nested paths and put all files in one dir (-d subset)
+#      note this only works if you don't need any nested dir structures
 # 146 GB zip, ___ uncompressed (mostly *.dat.gz)
 #   __ volume once restored (in docker container)
 unzip -d full usaspending-db_20250106.zip 
