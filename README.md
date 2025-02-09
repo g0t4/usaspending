@@ -170,7 +170,7 @@ dropdb test -U postgres
 createdb test -U postgres
 
 # create schema only as first step:
-pg_restore --clean --if-exists --verbose -U postgres --dbname test --schema-only --no-owner /downloads/subset/  -j 8
+pg_restore --verbose -U postgres --dbname test --schema-only --no-owner /downloads/subset/  -j 8
 # FYI using --clean alone throws errors if objects don't exist
 #   EITHER dont use clean or use it with: `--clean --if-exists`
 #   i.e. drop/createdb is fine alone
