@@ -163,24 +163,25 @@ docker compose down --remove-orphans --volumes --rmi all
 
 ```sh
 
-# first restore only schema (no data)
+# *** new restore for subset (no errors):
+# first, ensure a new database 
+dropdb subset -U postgres --if-exists && createdb subset -U postgres
+# restore w/o --clean to avoid errors
+pg_restore --verbose -U postgres --dbname subset --no-owner /downloads/subset/  -j 8
+# FYI --clean throws errors if objects don't exist
+#   EITHER use it with: `--clean --if-exists`
+#   AND, I ran into issues with order of removing dependent objects, so just use drop/createdb
+```
 
+## test database
 
-dropdb test -U postgres
-createdb test -U postgres
+```sh
 
-# create schema only as first step:
-pg_restore --verbose -U postgres --dbname test --schema-only --no-owner /downloads/subset/  -j 8
-# FYI using --clean alone throws errors if objects don't exist
-#   EITHER dont use clean or use it with: `--clean --if-exists`
-#   i.e. drop/createdb is fine alone
-# FYI if you use --clean --if-exists => still get failuree on dependencies between objects
-#   I don't know if the errors mean it tries a diff order as a result or just leaves object!
-#   so use dropdb for now
+dropdb test -U postgres --if-exists && createdb test -U postgres
+# optimizations
+pg_restore --verbose -U postgres --dbname test --no-owner /downloads/test/  -j 8
 
-# verify it worked:
-psql -U postgres
-    \c test
-    \dn
-    \dt
+# verify tables:
+echo "\l \c test \dn \dt " | psql -U postgres
+
 ```
