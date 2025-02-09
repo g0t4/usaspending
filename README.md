@@ -39,7 +39,8 @@ unzip -d full usaspending-db_20250106.zip
 #    TODO capture this once I get a successful restore
 
 # *** start database container(s)
-docker compose up
+docker compose up --build
+# only need --build if you change the Dockerfile (i.e. install additional packages)
 # use Ctrl+C to stop it
 
 # *** shell access
