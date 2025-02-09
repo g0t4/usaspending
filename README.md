@@ -50,7 +50,7 @@ docker compose up
 # use Ctrl+C to stop it
 
 # shell access:
-docker compose exec db fish
+docker compose exec -e "PGUSER=postgres" db fish
 # connect to psql:
 psql -U postgres
 \l # list databases
