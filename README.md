@@ -146,6 +146,9 @@ brew install postgresql@17 # adjust for latest version
 # CLI w/ colorful output + tab completion support:
 brew install pgcli
 
+# arch
+sudo pacman --noconfirm -S pgcli
+
 ```
 
 ## Misc Notes
