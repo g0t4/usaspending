@@ -27,6 +27,7 @@ unzip -j -d subset usaspending-db-subset_20250106.zip
 #     ls *.dat | xargs -I_ du -h _ | sort -h > ../subset-file-sizes.txt
 #   pg_restore'd in docker volume: 42GB
 #      42GB docker volume one crestored and IIAC materialized views are rebuilt/ing
+#   restore: <5 mins mbp, 2 mins ollama server
 #
 unzip -d full usaspending-db_20250106.zip 
 # sizes:
