@@ -139,8 +139,8 @@ docker compose down --remove-orphans --volumes --rmi all
 ## Misc Notes
 
 - Gauge progress
-    ```sh
 
+    ```sh
     # pg_restore --list # shows items and IIAC the order, if so:
     # index create
     # index attach
@@ -158,8 +158,8 @@ docker compose down --remove-orphans --volumes --rmi all
     pbpaste | grep -i "finished.*INDEX ATTACH" | wordcount
     # vs actual (currently 62)
     pg_restore --list /downloads/subset | grep -i "INDEX ATTACH" | wc
-
     ``` 
+
 - FYI you can pipe commands to psql:
     - `echo "\l \c test \dn \dt " | psql` 
 - `pg_restore` args:
