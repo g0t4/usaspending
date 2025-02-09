@@ -141,25 +141,24 @@ docker compose down --remove-orphans --volumes --rmi all
 - Gauge progress
 
     ```sh
-    # pg_restore --list # shows items in order, these are the last types:
-    #   index create
-    #   index attach
-    #   triggers
-    #   FKs
-    #   materialized views (last)
+    # list objects to restore (via docker exec)
+    docker compose exec --env PGUSER=postgres db pg_restore --list /downloads/full | pbcopy
+    #    aren't in the exact restore order, but in some ways close to it
+    #    but dependency wise, indexes create/attach will be done close to last
+    #    so, count the number of "INDEX CREATE" and "INDEX ATTACH" to approximate how close to done
+    #        btw most of index attach happens after index create (two batches of them after index create)
+    #    "MATERIALIZED VIEW DATA" came dead last
 
-    # check index create progress:
+    # check INDEX CREATE "progress":
     # copy pg_restore output and search for # indexes completed:
     pbpaste | grep -i "finished.*INDEX" | wordcount
     # compare to full list (currently 380)
     pg_restore --list /downloads/subset | grep -i "INDEX" | grep -v ATTACH | wc
 
-    # check index attaches:
+    # check INDEX ATTACH:
     pbpaste | grep -i "finished.*INDEX ATTACH" | wordcount
     # vs actual (currently 62)
     pg_restore --list /downloads/subset | grep -i "INDEX ATTACH" | wc
-
-    # check triggers... thru materialized views
 
     ``` 
 
