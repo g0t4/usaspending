@@ -54,12 +54,10 @@ psql
 # select name, website from toptier_agency
 
 # *** restore subset
-dropdb subset --if-exists && createdb subset 
-pg_restore --verbose --dbname subset --no-owner /downloads/subset -j 8 # --no-owner b/c everything was marked owned by etl_user, else get error:
-#     pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
-# --verbose gives updates 
-#     compare to `pg_restore --list` (below) to see overall position in restore
-#     SELECT * FROM pg_stat_progress_copy;
+set dbname subset 
+set backup_dir $database_name
+dropdb $dbname --if-exists && createdb $dbname
+pg_restore --verbose --dbname $dbname --no-owner /downloads/$backup_dir -j 8 
 
 # *** restore full
 # MAKE SURE YOU HAVE 2+ TB of free space
@@ -142,17 +140,23 @@ echo "\l \c test \dn \dt " | psql
 ```
 
 ## Misc Notes
-
-- verify backup:
+- `pg_restore` args:
+    - `--no-owner` b/c everything was marked owned by etl_user, else get errors:
+        - pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
+    - `--verbose` for progress updates 
+        - compare to `pg_restore --list` (below) to see overall position in restore
+        - `SELECT * FROM pg_stat_progress_copy;`
     - `pg_restore --list /downloads/subset` 
-- pg_restore's `--clean` throws errors if objects don't exist
-    - Can use it with `--clean --if-exists`
-    - But, I ran into issues with order of removing dependent objects
-    - Just use drop/createdb
+        - to verify the backup files
+    - `--clean` throws errors if objects don't exist
+        - Can use `--clean --if-exists`
+        - But, I still ran into issues with order of removing dependent objects
+        - Just use drop/createdb
 - put initialization scripts in ./initdb/
     - runs executable *.sh 
     - runs *.sql
     - sources non-exeuctable *.sh
+    - these are run during container creation (first time only)
 - PRN review database config example:
     - /usr/share/postgresql/postgresql.conf.sample
 - nvim found the database dump files and is suggesting completions for tables !!! 
