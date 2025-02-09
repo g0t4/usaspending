@@ -136,6 +136,18 @@ docker compose down --remove-orphans --volumes --rmi all
   - Sign up for an account if you want to discuss the datasets with other users
 - [Discussions](https://onevoicecrm.my.site.com/usaspending/s/)
 
+## sql client tools
+
+```sh
+
+# full tooling (including psql), also server:
+brew install postgresql@17 # adjust for latest version
+
+# CLI w/ colorful output + tab completion support:
+brew install pgcli
+
+```
+
 ## Misc Notes
 
 - Gauge progress
