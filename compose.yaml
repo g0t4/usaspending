@@ -9,6 +9,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secrets
+      - PGUSER=postgres # so, `psql` alone works inside container, instead of `psql -U postgres`
     volumes:
       - ./downloads:/downloads
       - ./initdb:/docker-entrypoint-initdb.d/
