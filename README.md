@@ -158,3 +158,26 @@ docker compose down --remove-orphans --volumes --rmi all
 - [Download page with latest files](https://onevoicecrm.my.site.com/usaspending/s/database-download)
   - Sign up for an account if you want to discuss the datasets with other users
 - [Discussions](https://onevoicecrm.my.site.com/usaspending/s/)
+
+## Fix restore errors (diff order)
+
+```sh
+
+# first restore only schema (no data)
+
+
+dropdb test -U postgres
+createdb test -U postgres
+
+# create schema only as first step:
+pg_restore --clean --if-exists --verbose -U postgres --dbname test --schema-only --no-owner /downloads/subset/  -j 8
+# FYI using --clean alone throws errors if objects don't exist
+#   EITHER dont use clean or use it with: `--clean --if-exists`
+#   i.e. drop/createdb is fine alone
+
+# verify it worked:
+psql -U postgres
+    \c test
+    \dn
+    \dt
+```

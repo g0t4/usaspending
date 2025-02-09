@@ -3,6 +3,9 @@
 -- \c full
 -- \c subset
 
+-- list schemas:
+-- \dn 
+
 -- *** key tables
 -- list tables
 -- \dt
