@@ -148,6 +148,7 @@ brew install pgcli
 
 # arch
 sudo pacman --noconfirm -S pgcli
+pgcli -h localhost -p 54321 -U postgres
 
 ```
 
