@@ -80,6 +80,7 @@ echo "ALTER SYSTEM SET autovacuum = 'on';" | psql
 echo "ALTER SYSTEM SET wal_level = replica; ALTER SYSTEM SET max_wal_senders = 10; " | psql 
 # BTW if you bork postgres config and db container fails on restart, then on container host edit the config:
 nvim /var/lib/docker/volumes/usaspending_database/_data/postgresql.auto.conf
+#    cat /var/lib/postgresql/data/postgresql.auto.conf # in the container
 echo "SHOW config_file" | psql # find config file location
 # remove any config in this file and then restart, you'll go back to defaults
 
