@@ -57,7 +57,7 @@ echo "\l" | psql
 
 # *** restore 
 # change database name
-set dbname subset 
+set dbname subset # *** also change below (after restart)
 # 
 dropdb $dbname --if-exists && createdb $dbname
 # config optimizations:
@@ -72,7 +72,7 @@ docker compose exec --env PGUSER=postgres db fish
 echo "SHOW autovacuum" | psql
 echo "SHOW wal_level; SHOW max_wal_senders;" | psql
 
-set dbname subset 
+set dbname subset # *** also change above (before restart)
 pg_restore --verbose --dbname $dbname --no-owner /downloads/$dbname -j 8 
 # monitor progress:
 du -hd1 /var/lib/postgresql/data/
