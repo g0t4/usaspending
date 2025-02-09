@@ -36,11 +36,9 @@ unzip -d full usaspending-db_20250106.zip
 #  gunzip'd *.gz: 1,228 GB (1.2TB)
 #    FYI I also captured file sizes using:
 #    ls *.dat | xargs -I_ du -h _ | sort -h > ../full-file-sizes.txt
-#  pg_restore'd in docker volume: ___
-#    TODO capture this once I get a successful restore
-#  restore estimate: 30GB/min in test run of first 968GB => 45 mins total is my estimate with leeway given these data rates
-#     689G avail on drive when I went to bed (right after stop process)
-#     476G =>    sudo du -hd0 /var/lib/docker/volumes/usaspending_database
+#  pg_restore'd in docker volume: 1.4TB 
+#  restore estimate: ~2hrs10ms
+#    most data (1.1TB) restored within 35 mins
 
 # *** start database container(s)
 docker compose up --build
@@ -140,6 +138,28 @@ docker compose down --remove-orphans --volumes --rmi all
 
 ## Misc Notes
 
+- Gauge progress
+```sh
+
+# pg_restore --list # shows items and IIAC the order, if so:
+# index create
+# index attach
+# triggers
+# FKs
+# materialized views (last)
+
+# check index create progress:
+# copy pg_restore output and search for # indexes completed:
+pbpaste | grep -i "finished.*INDEX" | wordcount
+# compare to full list (currently 380)
+pg_restore --list /downloads/subset | grep -i "INDEX" | grep -v ATTACH | wc
+
+# then index attaches:
+pbpaste | grep -i "finished.*INDEX ATTACH" | wordcount
+# vs actual (currently 62)
+pg_restore --list /downloads/subset | grep -i "INDEX ATTACH" | wc
+
+``` 
 - FYI you can pipe commands to psql:
     - `echo "\l \c test \dn \dt " | psql` 
 - `pg_restore` args:
