@@ -45,14 +45,13 @@ docker compose up
 # *** shell access
 docker compose exec --env "PGUSER=postgres" db fish
 # PGUSER=postgres means no `-U postgres` on every command
-
 psql
-    \l # list databases
-    \? # help
-    \c subset # switch dbs
-    \d # list tables, views, etc
-    \dt # list tables (shorthand)
-    select name, website from toptier_agency
+# \l # list databases
+# \? # help
+# \c subset # switch dbs
+# \d # list tables, views, etc
+# \dt # list tables (shorthand)
+# select name, website from toptier_agency
 
 # *** restore subset
 dropdb subset --if-exists && createdb subset 
@@ -133,9 +132,8 @@ docker compose down --remove-orphans --volumes --rmi all
 
 ```sh
 
-export PGUSER=postgres
 dropdb test --if-exists && createdb test 
-# TODO optimizations
+# FYI run optimizations 
 echo "" | psql 
 pg_restore --verbose --dbname test --no-owner /downloads/subset  -j 8
 
