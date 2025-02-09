@@ -174,6 +174,9 @@ pg_restore --verbose -U postgres --dbname test --schema-only --no-owner /downloa
 # FYI using --clean alone throws errors if objects don't exist
 #   EITHER dont use clean or use it with: `--clean --if-exists`
 #   i.e. drop/createdb is fine alone
+# FYI if you use --clean --if-exists => still get failuree on dependencies between objects
+#   I don't know if the errors mean it tries a diff order as a result or just leaves object!
+#   so use dropdb for now
 
 # verify it worked:
 psql -U postgres
