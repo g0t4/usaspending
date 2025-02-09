@@ -59,25 +59,50 @@ set dbname subset
 # 
 set backup_dir $database_name
 dropdb $dbname --if-exists && createdb $dbname
+# config optimizations:
+echo "ALTER SYSTEM SET autovacuum = 'off';" | psql
+echo "ALTER SYSTEM SET wal_level = minimal; ALTER SYSTEM SET max_wal_senders = 0; " | psql 
+
+# exit the container, and restart to apply new config:
+docker compose restart
+# exec back in
+
+# verify settings
+echo "SHOW autovacuum" | psql
+echo "SHOW wal_level; SHOW max_wal_senders;" | psql
+
 pg_restore --verbose --dbname $dbname --no-owner /downloads/$backup_dir -j 8 
+# monitor progress:
+du -hd1 /var/lib/postgresql/data/
+
+# undo config changes:
+echo "ALTER SYSTEM SET autovacuum = 'on';" | psql
+echo "ALTER SYSTEM SET wal_level = replica; ALTER SYSTEM SET max_wal_senders = 10; " | psql 
+# BTW if you bork postgres config and db container fails on restart, then on container host edit the config:
+nvim /var/lib/docker/volumes/usaspending_database/_data/postgresql.auto.conf
+echo "SHOW config_file" | psql # find config file location
+# remove any config in this file and then restart, you'll go back to defaults
+
 
 # *** restore full
 # MAKE SURE YOU HAVE 2+ TB of free space
-set dbname full 
-# rest is the same as above
+set dbname full # set this above
 ```
+
+## Investigating Config Optimizations for Restore
+
 ```sql
--- *** restore optimizations (optional)
--- confirmed useful:
+-- *** confirmed useful:
 ALTER SYSTEM SET autovacuum = 'off'; -- on default, avoid errors during restore
 -- avoid wal warnings:
 ALTER SYSTEM SET wal_level = minimal; -- replica default
 ALTER SYSTEM SET max_wal_senders = 0; -- 10 default
---
--- WIP:
--- TODO shared memory corrupted after 610GB... I have enough data to play for now...
+
+-- *** WIP:
+--   FYI only going to try these if I run into issues with full restore
 ALTER SYSTEM SET maintenance_work_mem = '12GB'; -- 64MB default
 ALTER SYSTEM SET shared_buffers = '16GB'; -- 128GB default
+-- FYI I ran into shared memory corrupted after 610GB... when I tried these memory mods the first time on the full db
 ALTER SYSTEM SET max_parallel_maintenance_workers = 8; -- 2 default
 ALTER SYSTEM SET synchronous_commit = 'off'; -- on default
 ALTER SYSTEM SET work_mem = '512MB'; -- 4MB default
@@ -86,28 +111,6 @@ ALTER SYSTEM SET full_page_writes = 'off'; -- on default
 -- ALTER SYSTEM SET checkpoint_completion_target = 0.9; -- 0.9 default (so don't need to change this unless using a diff value)
 CHECKPOINT; -- TODO WHEN?
 ```
-
-```sh
-# copy/paste change confirmed settings:
-echo "ALTER SYSTEM SET autovacuum = 'off';" | psql
-echo "ALTER SYSTEM SET wal_level = minimal; ALTER SYSTEM SET max_wal_senders = 0; " | psql 
-
-# BTW if you bork postgres config and db container fails on restart, then on container host edit the config:
-nvim /var/lib/docker/volumes/usaspending_database/_data/postgresql.auto.conf
-echo "SHOW config_file" | psql # find config file location
-
-# verify settings
-echo "SHOW autovacuum" | psql
-echo "SHOW wal_level; SHOW max_wal_senders;" | psql
-
-# full restart for wal_level change
-docker compose restart
-
-# monitor progress:
-du -hd1 /var/lib/postgresql/data/
-```
-
-Refer to the docs for the [postgres image on Docker Hub](https://hub.docker.com/_/postgres) 
 
 ## Cleanup
 
@@ -128,20 +131,10 @@ docker compose down --remove-orphans --volumes --rmi all
   - Sign up for an account if you want to discuss the datasets with other users
 - [Discussions](https://onevoicecrm.my.site.com/usaspending/s/)
 
-## Test Database
-
-```sh
-
-dropdb test --if-exists && createdb test 
-# FYI run optimizations 
-echo "" | psql 
-pg_restore --verbose --dbname test --no-owner /downloads/subset  -j 8
-
-# verify tables:
-echo "\l \c test \dn \dt " | psql 
-```
-
 ## Misc Notes
+
+- FYI you can pipe commands to psql:
+    - `echo "\l \c test \dn \dt " | psql` 
 - `pg_restore` args:
     - `--no-owner` b/c everything was marked owned by etl_user, else get errors:
         - pg_restore: error: could not execute query: ERROR:  role "etl_user" does not exist
@@ -154,6 +147,7 @@ echo "\l \c test \dn \dt " | psql
         - Can use `--clean --if-exists`
         - But, I still ran into issues with order of removing dependent objects
         - Just use drop/createdb
+- docs for [postgres image on Docker Hub](https://hub.docker.com/_/postgres) 
 - put initialization scripts in ./initdb/
     - runs executable *.sh 
     - runs *.sql
