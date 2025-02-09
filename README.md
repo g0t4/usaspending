@@ -143,11 +143,11 @@ docker compose down --remove-orphans --volumes --rmi all
 # full tooling (including psql), also server:
 brew install postgresql@17 # adjust for latest version
 
-# CLI w/ colorful output + tab completion support:
+# *** pgcli 
+# psql + colorful output and tab completion support:
 brew install pgcli
-
-# arch
 sudo pacman --noconfirm -S pgcli
+# usage:
 pgcli -h localhost -p 54321 -U postgres
 
 ```
