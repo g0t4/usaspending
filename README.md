@@ -177,11 +177,12 @@ pg_restore --verbose -U postgres --dbname subset --no-owner /downloads/subset/  
 
 ```sh
 
-dropdb test -U postgres --if-exists && createdb test -U postgres
+export PGUSER=postgres
+dropdb test --if-exists && createdb test 
 # optimizations
-pg_restore --verbose -U postgres --dbname test --no-owner /downloads/test/  -j 8
+echo "" | psql 
+pg_restore --verbose --dbname test --no-owner /downloads/test/  -j 8
 
 # verify tables:
-echo "\l \c test \dn \dt " | psql -U postgres
-
+echo "\l \c test \dn \dt " | psql 
 ```
