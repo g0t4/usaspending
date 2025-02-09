@@ -1,0 +1,34 @@
+# https://github.com/yaegassy/coc-sqlfluff?tab=readme-ov-file
+# default config (all options):
+#    https://docs.sqlfluff.com/en/stable/configuration/default_configuration.html
+# rules reference:
+#    https://docs.sqlfluff.com/en/stable/reference/rules.html#ruleref
+
+[sqlfluff]
+max_line_length = 30
+# dialects: https://docs.sqlfluff.com/en/stable/reference/dialects.html
+dialect = postgres
+#
+# # [sqlfluff:layout:type:where_clause]
+# # keyword_line_position = none
+#
+# [sqlfluff:rules:capitalisation.keywords]
+# capitalisation_policy = lower
+#
+#
+#
+# # By setting a selection of clauses to "alone", we hint to the reflow
+# # algorithm that in the case of a long single line statement, the
+# # first place to add newlines would be around these clauses.
+# # Setting this to "alone:strict" would always _force_ line breaks
+# # around them even if the line isn't too long.
+# # [sqlfluff:layout:type:select_clause]
+# # line_position = alone
+# #
+# [sqlfluff:layout:type:where_clause]
+# line_position = alone:strict
+# keyword_line_position = leading
+#
+# [sqlfluff:layout:type:from_clause]
+# line_position = alone
+#
