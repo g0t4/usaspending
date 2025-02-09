@@ -137,7 +137,7 @@ export PGUSER=postgres
 dropdb test --if-exists && createdb test 
 # TODO optimizations
 echo "" | psql 
-pg_restore --verbose --dbname test --no-owner /downloads/test/  -j 8
+pg_restore --verbose --dbname test --no-owner /downloads/subset  -j 8
 
 # verify tables:
 echo "\l \c test \dn \dt " | psql 
