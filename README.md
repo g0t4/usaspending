@@ -38,6 +38,7 @@ unzip -d full usaspending-db_20250106.zip
 #    ls *.dat | xargs -I_ du -h _ | sort -h > ../full-file-sizes.txt
 #  pg_restore'd in docker volume: ___
 #    TODO capture this once I get a successful restore
+#  restore estimate: 30GB/min in test run of first 968GB => 45 mins total is my estimate with leeway given these data rates
 
 # *** start database container(s)
 docker compose up --build
