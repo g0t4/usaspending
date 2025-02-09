@@ -53,16 +53,18 @@ psql
 # \dt # list tables (shorthand)
 # select name, website from toptier_agency
 
-# *** restore subset
+# *** restore 
+# change database name
 set dbname subset 
+# 
 set backup_dir $database_name
 dropdb $dbname --if-exists && createdb $dbname
 pg_restore --verbose --dbname $dbname --no-owner /downloads/$backup_dir -j 8 
 
 # *** restore full
 # MAKE SURE YOU HAVE 2+ TB of free space
-dropdb full --if-exists && createdb full 
-pg_restore --verbose --dbname full --no-owner /downloads/full -j 8
+set dbname full 
+# rest is the same as above
 ```
 ```sql
 -- *** restore optimizations (optional)
