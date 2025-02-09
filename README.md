@@ -53,26 +53,27 @@ psql
 # \d # list tables, views, etc
 # \dt # list tables (shorthand)
 # select name, website from toptier_agency
+echo "\l" | psql
 
 # *** restore 
 # change database name
 set dbname subset 
 # 
-set backup_dir $database_name
 dropdb $dbname --if-exists && createdb $dbname
 # config optimizations:
 echo "ALTER SYSTEM SET autovacuum = 'off';" | psql
 echo "ALTER SYSTEM SET wal_level = minimal; ALTER SYSTEM SET max_wal_senders = 0; " | psql 
 
-# exit the container, and restart to apply new config:
-docker compose restart
-# exec back in
+exit # the container
+docker compose restart # applies new config
+docker compose exec --env PGUSER=postgres db fish
 
 # verify settings
 echo "SHOW autovacuum" | psql
 echo "SHOW wal_level; SHOW max_wal_senders;" | psql
 
-pg_restore --verbose --dbname $dbname --no-owner /downloads/$backup_dir -j 8 
+set dbname subset 
+pg_restore --verbose --dbname $dbname --no-owner /downloads/$dbname -j 8 
 # monitor progress:
 du -hd1 /var/lib/postgresql/data/
 
