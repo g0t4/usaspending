@@ -201,4 +201,12 @@ pgcli -h localhost -p 54321 -U postgres
 - PRN review database config example:
     - /usr/share/postgresql/postgresql.conf.sample
 - nvim found the database dump files and is suggesting completions for tables !!! 
+- password mgmt:
+    `ALTER USER username WITH PASSWORD 'foo'`
+  - set or update the password in keychain:
+     `security add-generic-password -s postgres -a postgres -U -w`
+  - use keychain to login:
+      `export PGUSER=postgres && export PGPASSWORD=(security find-generic-password -s postgres -a postgres -w)`
+      `pgcli -h ollama -p 54321`
+      - also works for `psql`
 
