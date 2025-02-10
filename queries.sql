@@ -88,7 +88,10 @@ where schemaname = 'rpt' and tablename = 'award_search';
 
 -- https://www.postgresql.org/docs/current/sql-createindex.html
 -- create index on recipient_hash over all fields:
---    currently, the existing index is only for action_date > 2007-10-01 which, yeah NO
+--    currently, the existing index:
+--       CREATE INDEX as_idx_recipient_hash ON rpt.award_search USING btree (recipient_hash) WHERE (action_date >= '2007-10-01'::date)
+-- 
+-- so I remade it w/ all records  (1476MB => 1585MB... inconsequential change and HUGE deal for lookups)
 CREATE INDEX wes_idx_rpt_award_search_recipient_hash ON rpt.award_search USING btree (recipient_hash);
 --    took ~3minutes to create
 --    FYI select * from rpt.award_search  where recipient_hash = '13b50da5-5b3e-eb77-a123-7daff7c433be'::UUID -- now was 2 min, now < 0.100 sec! 
@@ -113,6 +116,18 @@ EXPLAIN (ANALYZE, BUFFERS) select * from rpt.award_search where recipient_hash =
 
 -- TODO constraint lookup
 select oid, conname, pg_get_constraintdef(oid) from pg_constraint limit 10;
+
+-- FYI namespace == schema (ns is the structure to support schema IIUC)
+select * from information_schema.schemata;
+select * from pg_namespace;
+-- ns provides ACL too
+
+-- pg_catalog is a namespace (aka schema)
+--   houses pg_* objects
+select * from pg_namespace where OID = 11;
+select * from pg_class where relnamespace = 11; -- find objects in pg_catalog 
+select * from pg_class where relnamespace = 11 and relname ilike '%pg_index%' -- pg_index related catalogs
+select * from pg_catalog.pg_class  -- same as `from pg_class`
 
 /*
 operators:
