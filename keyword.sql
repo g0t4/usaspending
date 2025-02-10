@@ -10,5 +10,7 @@ SELECT to_tsvector('english', 'PostgreSQL full-text search is awesome!');
 -- interesting!!!
 select keyword_ts_vector from rpt.subaward_search where keyword_ts_vector @@ to_tsquery('english','fact')
 
+-- both fact & check:
+select keyword_ts_vector from rpt.subaward_search where keyword_ts_vector @@ to_tsquery('english','fact & check')
 
 
