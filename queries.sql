@@ -129,6 +129,22 @@ select * from pg_class where relnamespace = 11; -- find objects in pg_catalog
 select * from pg_class where relnamespace = 11 and relname ilike '%pg_index%' -- pg_index related catalogs
 select * from pg_catalog.pg_class  -- same as `from pg_class`
 
+-- lookup pg_indexes:
+select oid,relname,relkind from pg_class where relnamespace = 11 and relname = 'pg_indexes'
+-- rel kinds:
+select distinct(relkind) from pg_class 
+-- 'r' – Table (ordinary relation)
+-- 'v' – View
+-- 'm' – Materialized view
+-- 'i' – Index
+-- 'S' – Sequence
+-- 't' – TOAST table
+-- 'f' – Foreign table
+-- 'p' – Partitioned table
+-- 'I' - Partitioned index
+-- 'c' - Composite type
+
+
 /*
 operators:
   foo ILIKE '%bar%'  -- case insensitive
