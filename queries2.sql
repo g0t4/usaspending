@@ -31,6 +31,15 @@ select conrelid::regclass as table_from,
 from pg_constraint
 where conrelid in (select oid from pg_class where relkind = 'r' and relname ilike '%award%')
 
+-- ALL FOREIGN KEYS only:
+SELECT conrelid::regclass as table_from,
+    confrelid::regclass as table_to,
+    conname,
+    pg_get_constraintdef(oid) 
+FROM pg_constraint
+WHERE contype = 'f';
+
+
 -- WHERE CLAUSE REVERSE conrelid => string::regclass
 select conrelid::regclass as table_from, 
      confrelid::regclass as table_to, 
@@ -39,6 +48,10 @@ select conrelid::regclass as table_from,
  from pg_constraint
  where conrelid = 'rpt.subaward_search'::regclass
 -- FYI conrelid = 'rpt.subaward_search'::regclass ***  
+
+-- FYI find all objects with word in name
+select * from pg_class where relname ilike '%broker%'
+select * from pg_class where relname ilike '%award%'
 
 
 
