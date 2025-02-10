@@ -102,15 +102,14 @@ SELECT * FROM pg_stat_progress_create_index;
 --   apparently its buggy too.. oh well https://www.postgresql.org/message-id/20643.1447362580@sss.pgh.pa.us
 
 
-
-
-
 -- improve perf
 -- 96GB RAM on system, nearly all unused (arch linux)
 -- https://www.postgresql.org/docs/current/runtime-config-resource.html
 ALTER SYSTEM SET shared_buffers = '24GB'; -- 128MB default, suggested 25% RAM, up to max 40%
 -- TODO -- ALTER SYSTEM SET maintenance_work_mem = '12GB'; -- 64MB default
--- lets analyze a query first:
+
+
+-- FYI explain queries (investigate perf):
 EXPLAIN (ANALYZE, BUFFERS) select * from rpt.award_search where recipient_hash = '13b50da5-5b3e-eb77-a123-7daff7c433be'::UUID;
 
 
