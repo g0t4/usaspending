@@ -147,8 +147,8 @@ brew install postgresql@17 # adjust for latest version
 # psql + colorful output and tab completion support:
 brew install pgcli
 sudo pacman --noconfirm -S pgcli
-# usage:
-pgcli -h localhost -p 54321 -U postgres
+# usage (full == dbname)
+pgcli -h localhost -p 54321 -U postgres full
 
 ```
 
