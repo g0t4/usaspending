@@ -14,3 +14,6 @@ select * from rpt.recipient_profile where recipient_hash = '088c8a68-1683-87e4-5
 --   unfortunatley a stored procedure in postgres cannot just run queries like in MSSQL and dump results as if user had run them..
 --   have all sorts of bullshit to do the same thing... what a joke
 
+-- is there not a way to set variables in pgcli?! or psql?
+--  how can I make reusable query sets?
+--   do I have to write a script myself? 
