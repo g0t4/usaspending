@@ -5,7 +5,7 @@
 #    https://docs.sqlfluff.com/en/stable/reference/rules.html#ruleref
 
 [sqlfluff]
-max_line_length = 30
+max_line_length = 0 
 # dialects: https://docs.sqlfluff.com/en/stable/reference/dialects.html
 dialect = postgres
 #
