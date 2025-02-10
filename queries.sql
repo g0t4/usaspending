@@ -45,6 +45,34 @@ select * from rpt.recipient_profile where recipient_hash = '13b50da5-5b3e-eb77-a
 select P.id,  legal_business_name FROM rpt.recipient_lookup L LEFT JOIN rpt.recipient_profile P ON L.recipient_hash = P.recipient_hash 
 WHERE L.legal_business_name <> P.recipient_name  LIMIT 10;
 
+-- awards (POLITICO):
+select * from rpt.award_search where recipient_hash = '13b50da5-5b3e-eb77-a123-7daff7c433be'::UUID
+-- \x    -- toggle list mode (think pwsh Format-List)
+
+-- index lookup
+SELECT indexname, indexdef, tablename FROM pg_indexes
+ORDER BY tablename, indexname
+SELECT 
+    indexname, 
+    pg_size_pretty(pg_relation_size(indexrelid)) AS size
+FROM pg_stat_user_indexes 
+WHERE schemaname = 'rpt' AND tablename = 'award_search';
+
+-- why is there an index on recipient_hash but qualified as action_date >= 2007-10-01?!
+--  152,935,236 (91+% indexed)
+--   14,342,863 (10% action_date < 2007-10-01)
+
+
+
+-- improve perf
+-- 96GB RAM on system, nearly all unused (arch linux)
+-- https://www.postgresql.org/docs/current/runtime-config-resource.html
+ALTER SYSTEM SET shared_buffers = '24GB'; -- 128MB default, suggested 25% RAM, up to max 40%
+-- TODO -- ALTER SYSTEM SET maintenance_work_mem = '12GB'; -- 64MB default
+-- lets analyze a query first:
+EXPLAIN (ANALYZE, BUFFERS) select * from rpt.award_search where recipient_hash = '13b50da5-5b3e-eb77-a123-7daff7c433be'::UUID;
+
+
 /*
 operators:
   foo ILIKE '%bar%'  -- case insensitive
