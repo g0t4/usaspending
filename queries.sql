@@ -144,6 +144,11 @@ select distinct(relkind) from pg_class
 -- 'I' - Partitioned index
 -- 'c' - Composite type
 
+-- TOAST - The Oversized-Attribute Storage Technique
+--   lookups for records beyond the page size (tuple limit)
+--   can impact performance
+--   can only index first ~2KB of value
+
 
 /*
 operators:
