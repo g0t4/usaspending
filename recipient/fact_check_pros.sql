@@ -8,6 +8,12 @@ select * from rpt.recipient_lookup where legal_business_name ilike '%fact%check%
 
 select * from rpt.recipient_lookup where recipient_hash = '088c8a68-1683-87e4-5963-35c9bac84aeb'::UUID
 select * from rpt.recipient_profile where recipient_hash = '088c8a68-1683-87e4-5963-35c9bac84aeb'::UUID
+select * from rpt.award_search where recipient_hash = '088c8a68-1683-87e4-5963-35c9bac84aeb'::UUID
+-- date_signed                                   | 2020-07-14
+-- total_subsidy_cost                            | 3268.80
+-- total_loan_value                              | 24000.00
+-- type_description_raw                          | DIRECT LOAN (E)
+-- TLDR? COVID EIDL loan?
 
 
 -- TODO find a way to create reusable sets of queries in pgcli itself or in postgres...
