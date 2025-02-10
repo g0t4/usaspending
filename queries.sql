@@ -81,10 +81,23 @@ where schemaname = 'rpt' and tablename = 'award_search';
 -- OR:
 SELECT schemaname, relname, indexrelname, pg_size_pretty(pg_total_relation_size(indexrelid)) As total_size 
 FROM pg_stat_user_indexes WHERE schemaname = 'rpt' and relname = 'award_search' 
--- include indexdef (requires using pg_indexes instead of pg_stat_user_indexes)
+-- *** include indexdef (requires using pg_indexes instead of pg_stat_user_indexes)
 select I.schemaname, I.tablename, I.indexname, C.oid, pg_size_pretty(pg_total_relation_size(oid)), I.indexdef 
 from pg_indexes I left join pg_class C on C.relname = I.indexname
 where schemaname = 'rpt' and tablename = 'award_search';
+
+-- https://www.postgresql.org/docs/current/sql-createindex.html
+-- create index on recipient_hash over all fields:
+--    currently, the existing index is only for action_date > 2007-10-01 which, yeah NO
+CREATE INDEX wes_idx_rpt_award_search_recipient_hash ON rpt.award_search USING btree (recipient_hash);
+--    took ~3minutes to create
+--    FYI select * from rpt.award_search  where recipient_hash = '13b50da5-5b3e-eb77-a123-7daff7c433be'::UUID -- now was 2 min, now < 0.100 sec! 
+-- monitor progress:
+SELECT * FROM pg_stat_progress_create_index;
+-- FYI psql supports this to comma delimt numbers... pgcli says not supported?!
+-- \pset numericlocale on
+--   apparently its buggy too.. oh well https://www.postgresql.org/message-id/20643.1447362580@sss.pgh.pa.us
+
 
 
 
