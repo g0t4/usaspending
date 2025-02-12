@@ -10,12 +10,15 @@ Get your hands on the entire database!
 # *** Download the databases, I'd recommend using a client that can resume on failure... or just wget it
 #   start w/ subset only (4.6GB) instead of the full db (146GB)
 cd download
-wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
-wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
+wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250206.zip"
+wget "https://files.usaspending.gov/database_download/usaspending-db_20250206.zip"
+# FYI right now Jan are still avail too... 
+# wget "https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip"
+# wget "https://files.usaspending.gov/database_download/usaspending-db_20250106.zip"
 
 # *** Extract zips
 # the zip files exist as a container (the files are gzip compressed inside)
-unzip -j -d subset usaspending-db-subset_20250106.zip
+unzip -j -d subset usaspending-db-subset_20250206.zip
 #   -j means strip all nested paths and put all files in one dir (-d subset)
 #      note this only works if you don't need any nested dir structures
 # sizes:
@@ -29,7 +32,7 @@ unzip -j -d subset usaspending-db-subset_20250106.zip
 #      42GB docker volume one crestored and IIAC materialized views are rebuilt/ing
 #   restore: <5 mins mbp, 2 mins ollama server
 #
-unzip -d full usaspending-db_20250106.zip 
+unzip -d full usaspending-db_20250206.zip 
 # sizes:
 #  zip archive: 146 GB
 #  decompressed zip: ?
@@ -126,8 +129,8 @@ docker compose down --remove-orphans --volumes --rmi all
 
 ## The Money Shot
 
-- [Full database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db_20250106.zip)
-- [Subset database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db-subset_20250106.zip)
+- [Full database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db_20250206.zip)
+- [Subset database - Jan 6, 2025](https://files.usaspending.gov/database_download/usaspending-db-subset_20250206.zip)
 
 ## Resources
 
