@@ -9,6 +9,9 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=secrets
+      # set PG variables to simplify connecting to psql when exec'd into a container
+      - PGUSER=postgres
+      - PGPASSWORD=secrets
     volumes:
       - ./downloads:/downloads
       - ./initdb:/docker-entrypoint-initdb.d/
