@@ -10,8 +10,9 @@ max_line_length = 0
 dialect = postgres
 #
 # *** rule exclusions ***
-exclude_rules = ambiguous.column_count
+exclude_rules = AM04, LT13, LT12
 # AM04 = ambiguous.column_count => SELECT *
+# LT13 (layout.start_of_file), LT12 (layout.end_of_file) => files can't start/end with new lines... DUMB
 
 #
 # # [sqlfluff:layout:type:where_clause]
