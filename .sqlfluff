@@ -9,11 +9,17 @@ max_line_length = 0
 # dialects: https://docs.sqlfluff.com/en/stable/reference/dialects.html
 dialect = postgres
 #
+# *** rule exclusions ***
+exclude_rules = ambiguous.column_count
+# AM04 = ambiguous.column_count => SELECT *
+
+#
 # # [sqlfluff:layout:type:where_clause]
 # # keyword_line_position = none
 #
 # [sqlfluff:rules:capitalisation.keywords]
 # capitalisation_policy = lower
+
 #
 #
 #
