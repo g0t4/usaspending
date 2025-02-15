@@ -10,7 +10,7 @@ select pg_size_pretty(pg_total_relation_size('public.agency'));
 
 -- select relid::regclass 
 select
-    schemaname || '.' || relname as table_name,
+    schemaname || '.' || relname as fq_table_name,
     pg_size_pretty(pg_total_relation_size(relid)) as total_size
 from pg_stat_user_tables
 order by pg_total_relation_size(relid) desc;
