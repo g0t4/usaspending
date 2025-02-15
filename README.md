@@ -208,8 +208,8 @@ pgcli -h localhost -p 54321 -U postgres full
     `ALTER USER username WITH PASSWORD 'foo'`
   - set or update the password in keychain:
      `security add-generic-password -s postgres -a postgres -U -w`
-  - use keychain to login:
-      `export PGUSER=postgres && export PGPASSWORD=(security find-generic-password -s postgres -a postgres -w)`
-      `pgcli -h ollama -p 54321`
+  - use keychain to login, also set env vars to avoid params to pgcli:
+      `export PGUSER=postgres && export PGPASSWORD=(security find-generic-password -s postgres -a postgres -w) && export PGHOST=ollama && export PGPORT=54321`
+      `pgcli`
       - also works for `psql`
 
