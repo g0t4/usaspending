@@ -15,6 +15,9 @@ select * from pg_class where relname = 'award_search' -- => 17602
 -- BTW lookup class name with:
 select 17602::regclass -- => rpt.award_search
 
+-- and the reverse:
+select 'rpt.award_search'::regclass -- => rpt.award_search 
+
 -- find oid/relid for tables with 'award' in name
 select oid,relname from pg_class where relkind = 'r' and relname ilike '%award%'
 -- | 17602 | award_search                 |
